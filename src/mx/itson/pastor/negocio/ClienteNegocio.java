@@ -18,34 +18,18 @@ public class ClienteNegocio {
     
     public static boolean guardar(String nombre, String direccion, String telefono, String email){
         boolean resultado = false;
+       
+        
         try{
+          if(ClienteDAO.verificarEmail(nombre, direccion, telefono, email)){
             resultado = ClienteDAO.guardar(nombre, direccion, telefono, email);
+          }
         }catch(Exception ex){
             System.err.println(ex.getMessage());
         }
         return resultado;
     }
     
-    public static boolean verificarEmail(String nombre, String direccion, String telefono, String email){
-        boolean resultado = false;
-    try {
-            Connection connection = Conexion.obtener();
-            String consulta = "SELECT* FROM cliente WHERE email = '" + email + "'";
-            System.out.println(consulta);
-            PreparedStatement statement = connection.prepareStatement(consulta);
-            ResultSet r = statement.executeQuery();
-            
-            if (r.next()) {
-                return true;
-            } else {
-                return false;
-            }
-        } catch (Exception ex) {
-            System.err.println(ex.getMessage());
-            return false;
-        } 
-
-  
-}
+        
     
 }

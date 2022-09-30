@@ -11,6 +11,7 @@ import mx.itson.pastor.entidades.Cliente;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
+
 /**
  *
  * @author AbelEsquer
@@ -55,14 +56,31 @@ public class ClienteDAO {
             statement.setString(2, direccion);
             statement.setString(3, telefono);
             statement.setString(4, email);
-            
-            resultado = statement.getUpdateCount() ==1;
+
+            resultado = statement.getUpdateCount() == 1;
 
         } catch (Exception e) {
             System.err.println("Ocurrio un error " + e);
 
         }
         return resultado;
+    }
+
+    public static boolean verificarEmail(String nombre, String direccion, String telefono, String email) {
+        boolean existencia = false;
+        try {
+            Connection connection = Conexion.obtener();
+            String consulta = "SELECT* FROM cliente WHERE email = '" + email + "'";
+            PreparedStatement statement = connection.prepareStatement(consulta);
+            statement.setString(1, email);
+            ResultSet resultSet = statement.executeQuery();
+            
+            existencia = resultSet.next();
+        } catch (Exception ex) {
+            System.err.println("Ocurrió un error: " +ex.getMessage());
+            return false;
+        }
+        return existencia;
     }
 
 }
