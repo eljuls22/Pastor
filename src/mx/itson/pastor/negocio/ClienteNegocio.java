@@ -21,8 +21,9 @@ public class ClienteNegocio {
        
         
         try{
-          if(ClienteDAO.verificarEmail(nombre, direccion, telefono, email)){
+          if(!ClienteDAO.verificarEmail(nombre, direccion, telefono, email)){
             resultado = ClienteDAO.guardar(nombre, direccion, telefono, email);
+              System.out.println("1");
           }
         }catch(Exception ex){
             System.err.println(ex.getMessage());
